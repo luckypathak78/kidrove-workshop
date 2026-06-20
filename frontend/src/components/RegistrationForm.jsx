@@ -27,10 +27,24 @@ function RegistrationForm() {
     setMessage("");
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/enquiry",
-        form
-      );
+      
+      const API_URL = import.meta.env.VITE_API_URL;
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    await axios.post(
+      `${API_URL}/api/enquiry`,
+      form
+    );
+
+    alert("Registration successful 🎉");
+
+  } catch (error) {
+    alert("Something went wrong");
+  }
+};
 
       setMessage(response.data.message);
 
