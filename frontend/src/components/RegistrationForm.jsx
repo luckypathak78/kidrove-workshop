@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 
 function RegistrationForm() {
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -23,28 +25,13 @@ function RegistrationForm() {
     e.preventDefault();
 
     setLoading(true);
-
     setMessage("");
 
     try {
-      
-      const API_URL = import.meta.env.VITE_API_URL;
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  try {
-    await axios.post(
-      `${API_URL}/api/enquiry`,
-      form
-    );
-
-    alert("Registration successful 🎉");
-
-  } catch (error) {
-    alert("Something went wrong");
-  }
-};
+      const response = await axios.post(
+        `${API_URL}/api/enquiry`,
+        form
+      );
 
       setMessage(response.data.message);
 
@@ -54,9 +41,13 @@ const handleSubmit = async (e) => {
         phone: "",
       });
     } catch (error) {
+
+      console.log("Full Error:", error);
+      console.log("Response:", error.response);
+      
       setMessage(
         error.response?.data?.message ||
-          "Something went wrong"
+        "Something went wrong. Please try again."
       );
     }
 
@@ -71,14 +62,12 @@ const handleSubmit = async (e) => {
       <div className="max-w-xl mx-auto">
 
         <h2 className="text-4xl font-bold text-center mb-10">
-
           Register Now
-
         </h2>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-lg rounded-2xl p-8 space-y-5"
+          className="bg-white rounded-3xl shadow-2xl p-10 border space-y-5"
         >
 
           <input
@@ -88,7 +77,7 @@ const handleSubmit = async (e) => {
             value={form.name}
             onChange={handleChange}
             required
-            className="w-full border p-4 rounded-lg outline-none"
+            className="w-full border border-gray-300 p-4 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <input
@@ -98,7 +87,7 @@ const handleSubmit = async (e) => {
             value={form.email}
             onChange={handleChange}
             required
-            className="w-full border p-4 rounded-lg outline-none"
+            className="w-full border border-gray-300 p-4 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <input
@@ -108,13 +97,13 @@ const handleSubmit = async (e) => {
             value={form.phone}
             onChange={handleChange}
             required
-            className="w-full border p-4 rounded-lg outline-none"
+            className="w-full border border-gray-300 p-4 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-4 rounded-xl hover:bg-blue-700 transition"
+            className="w-full bg-blue-600 text-white py-4 rounded-xl font-semibold hover:bg-blue-700 transition disabled:opacity-60"
           >
 
             {loading
@@ -125,7 +114,7 @@ const handleSubmit = async (e) => {
 
           {message && (
 
-            <p className="text-center">
+            <p className="text-center font-medium">
 
               {message}
 
