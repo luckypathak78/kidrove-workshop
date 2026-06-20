@@ -89,7 +89,8 @@ backend/
 
 Clone the Repository
 
-git clone https://github.com/luckypathak78/YOUR-REPOSITORY.git
+git clone https://github.com/luckypathak78/kidrove-workshop
+
 
 Frontend Setup
 
